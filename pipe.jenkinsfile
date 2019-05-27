@@ -1,0 +1,21 @@
+pipeline{
+    agent any
+    stages{
+        stage('git'){
+            steps{
+                echo "git clone"
+                git branch:'dev',url:"https://github.com/leiyu0911/dotnet-architecture.git/"
+                echo "git clone sucuessfully"
+            }
+        }
+        stage('build'){
+            steps{
+                echo 'build'
+                dir('helm') {
+                    sh 'docker-compose -p .. -f ../docker-compose.yml build'
+                }
+                sh 'docker info'
+            }
+        }
+    }
+}
